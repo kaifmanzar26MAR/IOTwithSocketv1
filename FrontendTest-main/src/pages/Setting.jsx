@@ -70,7 +70,7 @@ const Setting = () => {
       vol2: vol2,
     }));
     console.log(
-      'dat set'
+      'dat set', data,data
     )
   };
 
@@ -90,7 +90,7 @@ const Setting = () => {
 
   // Context Logger
   const Logger = () => {
-    console.log(data);
+    // console.log(data);
   };
   const {messages, setMessages}=useListionMessage();
   // State to store machine number
@@ -131,9 +131,9 @@ const Setting = () => {
           dataToSet = await JSON.parse(messages);
         }
 
-console.log(dataToSet)
+// console.log(dataToSet)
 
-        console.log(dataToSet);
+        // console.log(dataToSet);
         setApiData(dataToSet);
       } catch (error) {
         console.log(error);

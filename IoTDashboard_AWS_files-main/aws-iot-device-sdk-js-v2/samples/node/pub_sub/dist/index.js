@@ -124,6 +124,22 @@ app.get('/',(req,res)=>{
 app.get('/recentdata',(req,res)=>{
     res.status(200).json({recentData});
 })
+let settings=null;
+app.post('/setdisplaysetting',(req,res)=>{
+    try {console.log("hiii")
+        const {displaySettings}=req.body;
+        settings=displaySettings;
+        console.log(displaySettings)
+        return res.status(200).json({data:"success"})
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json(error)
+    }
+})
+
+app.get('/getsettings',(req,res)=>{
+    res.status(200).json({settings});
+})
 
 server.listen(5000, ()=>{
     console.log("app is running on port 5000");
