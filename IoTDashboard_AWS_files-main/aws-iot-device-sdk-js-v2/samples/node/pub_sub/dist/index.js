@@ -10,11 +10,16 @@ const bodyParser= require('body-parser');
 
 const {app, io, server} = require('../socket.js')
 
-app.use(cors());
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true
+}));
 app.use(bodyParser.json());
 
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+
+let recentData;
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -47,6 +52,7 @@ function execute_session(connection, argv) {
                     const json = decoder.decode(payload);
                     console.log(`Publish received. topic:"${topic}" dup:${dup} qos:${qos} retain:${retain}`);
                     console.log(`Payload: ${json}`);
+                    recentData=json;
                     try {
                         io.emit("newMessage", json);
                         console.log("message sent")
@@ -113,6 +119,10 @@ function main(argv) {
 //# sourceMappingURL=index.js.map
 app.get('/',(req,res)=>{
     res.status(200).json({message:"hiiii"})
+})
+
+app.get('/recentdata',(req,res)=>{
+    res.status(200).json({recentData});
 })
 
 server.listen(5000, ()=>{

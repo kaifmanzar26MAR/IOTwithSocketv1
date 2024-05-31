@@ -4,6 +4,7 @@ import MachineSelector from "../components/MachineSelector";
 import PropSelector from "../components/PropSelector";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import useListionMessage from "../hooks/useListionMessage";
 
 const Setting = () => {
   // const apiData = {
@@ -91,7 +92,7 @@ const Setting = () => {
   const Logger = () => {
     console.log(data);
   };
-
+  const {messages, setMessages}=useListionMessage();
   // State to store machine number
   const machines = Object.keys(apiData);
   const [selectedMachine, setSelectedMachine] = useState("");
@@ -114,11 +115,23 @@ const Setting = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://ec2-35-154-187-94.ap-south-1.compute.amazonaws.com:3000/getdata"
-        );
+        // const response = await axios.get(
+        //   "http://ec2-35-154-187-94.ap-south-1.compute.amazonaws.com:3000/getdata"
+        // );
 
-        const dataToSet = JSON.parse(response.data);
+
+
+      
+        let dataToSet;
+        if (!messages) {
+          const res = await axios.get("http://localhost:5000/recentdata");
+          console.log(res);
+          dataToSet = await JSON.parse(res.data.recentData);
+        } else {
+          dataToSet = await JSON.parse(messages);
+        }
+
+console.log(dataToSet)
 
         console.log(dataToSet);
         setApiData(dataToSet);
@@ -128,8 +141,8 @@ const Setting = () => {
     };
 
     fetchData();
-    getProperties(selectedMachine);
-  }, [selectedMachine]);
+    // getProperties(selectedMachine);
+  }, [selectedMachine,messages]);
 
   // Variable to Map Selectd property with prop in Screen
 

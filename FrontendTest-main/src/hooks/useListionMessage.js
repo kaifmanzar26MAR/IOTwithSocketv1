@@ -3,14 +3,13 @@ import { useSocketContext } from '../context/SocketContext';
 
 const useListionMessage = () => {
   const { socket } = useSocketContext();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(null);
 
   useEffect(() => {
     if (!socket) return;
 
     const handleNewMessage = (newMessage) => {
-      console.log("message ", newMessage);
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setMessages(newMessage);
     };
 
     socket.on("newMessage", handleNewMessage);
