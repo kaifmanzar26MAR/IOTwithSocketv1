@@ -3,19 +3,6 @@
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0.
  */
-
-const express= require('express');
-const cors= require('cors')
-const bodyParser= require('body-parser');
-
-const {app, io, server} = require('../socket.js')
-
-app.use(cors());
-app.use(bodyParser.json());
-
-app.use(express.json({ limit: "16kb" }));
-app.use(express.urlencoded({ extended: true, limit: "16kb" }));
-
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,13 +35,6 @@ function execute_session(connection, argv) {
                     console.log(`Publish received. topic:"${topic}" dup:${dup} qos:${qos} retain:${retain}`);
                     console.log(`Payload: ${json}`);
                     try {
-                        io.emit("newMessage", json);
-                        console.log("message sent")
-                    } catch (error) {
-                        console.log(error)
-                    }
-                     
-                    try {
                         const message = JSON.parse(json);
                         if (message.sequence == argv.count) {
                             subscribed = true;
@@ -86,7 +66,7 @@ function execute_session(connection, argv) {
                             }
                         });
                     });
-                    // setTimeout(publish, op_idx * 1000);
+                    setTimeout(publish, op_idx * 1000);
                 }
             }
             catch (error) {
@@ -111,10 +91,3 @@ function main(argv) {
     });
 }
 //# sourceMappingURL=index.js.map
-app.get('/',(req,res)=>{
-    res.status(200).json({message:"hiiii"})
-})
-
-server.listen(5000, ()=>{
-    console.log("app is running on port 5000");
-})

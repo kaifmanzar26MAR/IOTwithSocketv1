@@ -2,31 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-.flex-center{
+.flex-center {
     @apply flex justify-center items-center;
 }
 
-.heading1{
+.heading1 {
     @apply font-bold text-[3.25rem];
 }
-.heading2{
+
+.heading2 {
     @apply font-bold text-[2.5rem];
 }
-.heading3{
+
+.heading3 {
     @apply font-bold text-[2rem];
 }
-.body1{
+
+.body1 {
     @apply font-medium text-[1.563rem];
 }
-.body2{
+
+.body2 {
     @apply font-medium text-[1.25rem];
 }
-.body3{
+
+.body3 {
     @apply font-medium text-[1rem];
 }
-.secondry1{
+
+.secondry1 {
     @apply font-normal text-[0.813rem];
 }
-.secondry2{
+
+.secondry2 {
     @apply font-normal text-[0.625rem];
 }
+
