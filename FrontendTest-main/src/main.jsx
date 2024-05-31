@@ -5,10 +5,13 @@ import { RouterProvider } from "react-router-dom";
 import router from "./routes/router.jsx";
 import axios from "axios";
 import DisplaySettingContextProvider from "./store/DisplaySettingStore.jsx";
+import { SocketContextProvider } from "./context/SocketContext.jsx";
 axios.defaults.withCredentials = true;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <DisplaySettingContextProvider>
-    <RouterProvider router={router} />
+    <SocketContextProvider>
+      <RouterProvider router={router} />
+    </SocketContextProvider>
   </DisplaySettingContextProvider>
 );

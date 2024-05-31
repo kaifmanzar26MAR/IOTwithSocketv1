@@ -8,11 +8,13 @@ const express= require('express');
 const cors= require('cors')
 const bodyParser= require('body-parser');
 
-const app= express();
+const {app, io, server} = require('../socket.js')
 
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -45,6 +47,13 @@ function execute_session(connection, argv) {
                     const json = decoder.decode(payload);
                     console.log(`Publish received. topic:"${topic}" dup:${dup} qos:${qos} retain:${retain}`);
                     console.log(`Payload: ${json}`);
+                    try {
+                        io.emit("newMessage", json);
+                        console.log("message sent")
+                    } catch (error) {
+                        console.log(error)
+                    }
+                     
                     try {
                         const message = JSON.parse(json);
                         if (message.sequence == argv.count) {
@@ -102,8 +111,10 @@ function main(argv) {
     });
 }
 //# sourceMappingURL=index.js.map
+app.get('/',(req,res)=>{
+    res.status(200).json({message:"hiiii"})
+})
 
-
-app.listen(5000, ()=>{
+server.listen(5000, ()=>{
     console.log("app is running on port 5000");
 })

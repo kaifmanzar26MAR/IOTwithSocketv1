@@ -6,6 +6,7 @@ import axios from "axios";
 import { DisplaySetting } from "../store/DisplaySettingStore";
 import { Link } from "react-router-dom";
 import SettingsIcon from '@mui/icons-material/Settings';
+import useListionMessage from "../hooks/useListionMessage";
 
 const Home = () => {
 
@@ -29,7 +30,7 @@ const Home = () => {
   const [vol2, setVol2] = useState('~');
   const [status, setStatus]=useState(false)
 
-
+const {messages, setMessages}=useListionMessage();
 
   const nullUndefinedChecker = (value) => {
     if(value === undefined ||  value === null) 
@@ -68,11 +69,14 @@ const Home = () => {
       }
     };
 
-    fetchData();
-    const interval = setInterval(fetchData, 1000);
+    // fetchData();
+    // const interval = setInterval(fetchData, 1000);
 
-    return () => clearInterval(interval);
-  }, []); 
+    // return () => clearInterval(interval);
+  }, [messages]); 
+
+
+ 
 
   
 
