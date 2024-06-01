@@ -116,7 +116,7 @@ function main(argv) {
         clearTimeout(timer);
     });
 }
-//# sourceMappingURL=index.js.map
+
 app.get('/',(req,res)=>{
     res.status(200).json({message:"hiiii"})
 })

@@ -5,6 +5,7 @@ import Logs2 from "../pages/Logs2"
 import LogsLayout from "../layout/LogsLayout"
 import Logs from "../pages/Logs"
 import Setting from "../pages/Setting"
+import ResponseView from "../pages/ResponseView"
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
             {
                 path:'/setting',
                 element:<Setting/>
+            },
+            {
+                path:'responseview',
+                element:<ResponseView/>
             }
         ]
     },

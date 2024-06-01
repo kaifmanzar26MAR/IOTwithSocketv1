@@ -108,9 +108,9 @@ const Home = () => {
             Setting
           </button>
         </Link>
-        <Link to={"/logs"}>
+        <Link to={"/responseview"}>
           <button className=" btn p-2 bg-blue-700 rounded-3xl m-1 hover:bg-gray-500 text-gray-100 outline-black">
-            Logs
+            Response
           </button>
         </Link>
       </div>
