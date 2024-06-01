@@ -13,9 +13,9 @@ If (!(Test-Path ".\root-CA.crt")) {
 }
 
 # install AWS Device SDK for NodeJS if not already installed
-If (!(Test-Path ".\aws-iot-device-sdk-js-v2")) {
+If ((Test-Path ".\aws-iot-device-sdk-js-v2")) {
     "`nInstalling AWS SDK..."
-    git clone https://github.com/aws/aws-iot-device-sdk-js-v2.git --recursive
+    # git clone https://github.com/aws/aws-iot-device-sdk-js-v2.git --recursive
     cd aws-iot-device-sdk-js-v2
     npm install
     # install samples
@@ -25,6 +25,6 @@ If (!(Test-Path ".\aws-iot-device-sdk-js-v2")) {
 }
 
 "`nRunning pub/sub sample application..."
-node aws-iot-device-sdk-js-v2\samples\node\pub_sub\dist\index.js --endpoint a2s63c9ds97dfk-ats.iot.eu-north-1.amazonaws.com --ca_file root-CA.crt --key thingtest3.private.key --cert thingtest3.cert.pem --client_id sdk-nodejs-v2 --topic sdk/test/js
+node aws-iot-device-sdk-js-v2\samples\node\pub_sub\pub_sub_dist\index.js --endpoint a2s63c9ds97dfk-ats.iot.eu-north-1.amazonaws.com --ca_file root-CA.crt --key thingtest3.private.key --cert thingtest3.cert.pem --client_id sdk-nodejs-v2 --topic sdk/test/js
 
 Start-Sleep -Seconds 30
