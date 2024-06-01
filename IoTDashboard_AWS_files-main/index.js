@@ -1,3 +1,4 @@
+//Copy
 
 "use strict";
 /**
@@ -55,12 +56,6 @@ function execute_session(connection, argv) {
                     console.log(`Payload: ${json}`);
                     recentData=json;
                     try {
-                        io.emit("newMessage", json);
-                    } catch (error) {
-                        console.log(error)
-                    }
-                    
-                    try {
                         const message = JSON.parse(json);
                         if (message.sequence == argv.count) {
                             subscribed = true;
@@ -92,7 +87,7 @@ function execute_session(connection, argv) {
                             }
                         });
                     });
-                    // setTimeout(publish, op_idx * 1000);
+                    setTimeout(publish, op_idx * 1000);
                 }
             }
             catch (error) {
@@ -144,4 +139,3 @@ app.get('/getsettings',(req,res)=>{
 server.listen(5000, ()=>{
     console.log("app is running on port 5000");
 })
-

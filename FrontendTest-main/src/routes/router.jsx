@@ -22,6 +22,10 @@ const router = createBrowserRouter([
             },
             {
                 path:'/setting',
+                element:<Setting/>
+            },
+            {
+                path:'/responseview',
                 element:<ResponseView/>
             }
         ]
