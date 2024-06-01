@@ -9,7 +9,7 @@ export const useSocketContext = () => {
 
 export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState(null);
 
   useEffect(() => {
     const initializeSocket = () => {
@@ -22,10 +22,6 @@ export const SocketContextProvider = ({ children }) => {
       newSocket.on('connect', () => {
         console.log('Connected to server');
     });
-
-    newSocket.on('newMessage',(message)=>{
-      console.log(message)
-    })
 
       newSocket.on("getOnlineUsers", (users) => {
         if (users) {

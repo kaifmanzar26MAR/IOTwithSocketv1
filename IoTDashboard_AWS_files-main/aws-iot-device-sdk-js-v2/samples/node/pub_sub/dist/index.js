@@ -3,6 +3,24 @@
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
  * SPDX-License-Identifier: Apache-2.0.
  */
+
+const express= require('express');
+const cors= require('cors')
+const bodyParser= require('body-parser');
+
+const {app, io, server} = require('../socket.js')
+
+app.use(cors({
+    origin:"http://localhost:5173",
+    credentials:true
+}));
+app.use(bodyParser.json());
+
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+
+let recentData;
+
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,6 +52,7 @@ function execute_session(connection, argv) {
                     const json = decoder.decode(payload);
                     console.log(`Publish received. topic:"${topic}" dup:${dup} qos:${qos} retain:${retain}`);
                     console.log(`Payload: ${json}`);
+                    recentData=json;
                     try {
                         const message = JSON.parse(json);
                         if (message.sequence == argv.count) {
@@ -90,4 +109,31 @@ function main(argv) {
         clearTimeout(timer);
     });
 }
-//# sourceMappingURL=index.js.map
+
+app.get('/',(req,res)=>{
+    res.status(200).json({message:"hiiii"})
+})
+
+app.get('/recentdata',(req,res)=>{
+    res.status(200).json({recentData});
+})
+let settings=null;
+app.post('/setdisplaysetting',(req,res)=>{
+    try {console.log("hiii")
+        const {displaySettings}=req.body;
+        settings=displaySettings;
+        console.log(displaySettings)
+        return res.status(200).json({data:"success"})
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json(error)
+    }
+})
+
+app.get('/getsettings',(req,res)=>{
+    res.status(200).json({settings});
+})
+
+server.listen(5000, ()=>{
+    console.log("app is running on port 5000");
+})

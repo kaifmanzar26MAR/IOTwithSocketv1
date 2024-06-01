@@ -1,90 +1,118 @@
-
 import React, { useContext, useEffect, useState } from "react";
 import ReadingCard from "../components/Dashboard/ReadingCard";
 import ReadingCardMobile from "../components/Dashboard/ReadingCardMobile";
 import axios from "axios";
 import { DisplaySetting } from "../store/DisplaySettingStore";
 import { Link } from "react-router-dom";
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from "@mui/icons-material/Settings";
 import useListionMessage from "../hooks/useListionMessage";
 
 const Home = () => {
-
   // Context data
-  const {data,setData} = useContext(DisplaySetting);
+  const { data, setData } = useContext(DisplaySetting);
 
-  
   // Context Logger
   const Logger = () => {
     console.log(data);
-  }
+  };
 
+  const [pv, setPv] = useState("~");
+  const [sv, setSv] = useState("~");
+  const [amp, setAmp] = useState("~");
+  const [rpm, setRpm] = useState("~");
+  const [temp, setTemp] = useState("~");
+  const [amp2, setAmp2] = useState("~");
+  const [vol1, setVol1] = useState("~");
+  const [vol2, setVol2] = useState("~");
+  const [status, setStatus] = useState(false);
 
-  const [pv, setPv] = useState('~'); 
-  const [sv, setSv] = useState('~');
-  const [amp, setAmp] = useState('~');
-  const [rpm, setRpm] = useState('~');
-  const [temp, setTemp] = useState('~');
-  const [amp2, setAmp2] = useState('~');
-  const [vol1, setVol1] = useState('~');
-  const [vol2, setVol2] = useState('~');
-  const [status, setStatus]=useState(false)
-
-const {messages, setMessages}=useListionMessage();
+  const { messages, setMessages } = useListionMessage();
 
   const nullUndefinedChecker = (value) => {
-    if(value === undefined ||  value === null) 
-      return '--';
-    else 
-      return value;
-  }
+    if (value === undefined || value === null) return "--";
+    else return value;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-
       try {
-        const response = await axios.get('http://ec2-35-154-187-94.ap-south-1.compute.amazonaws.com:3000/getdata');
+        // const response = await axios.get('http://ec2-35-154-187-94.ap-south-1.compute.amazonaws.com:3000/getdata');
 
-        const dataToSet= JSON.parse(response.data);
-        
-          
-        console.log(dataToSet);
-          
+        let dataToSet;
+        if (!messages) {
+          const res = await axios.get("http://localhost:5000/recentdata");
+          console.log(res);
+          dataToSet = await JSON.parse(res.data.recentData);
+        } else {
+          dataToSet = await JSON.parse(messages);
+        }
+
+        console.log("datato set", dataToSet);
+
         if (!dataToSet) return;
-        
 
-          console.log('datarespnce',dataToSet[data.sv.machine].RG[data.sv.props]);
-          console.log('data',data);
-        setPv(nullUndefinedChecker(dataToSet[data.pv.machine].RG[data.pv.props]));
-        setSv(nullUndefinedChecker(dataToSet[data.sv.machine].RG[data.sv.props]));
-        setAmp(nullUndefinedChecker(dataToSet[data.amp.machine].RG[data.amp.props]));
-        setRpm(nullUndefinedChecker(dataToSet[data.rpm.machine].RG[data.rpm.props]));
-        setTemp(nullUndefinedChecker(dataToSet[data.temp.machine].RG[data.temp.props]));
-        setAmp2(nullUndefinedChecker(dataToSet[data.amp2.machine].RG[data.amp2.props]));
-        setVol1(nullUndefinedChecker(dataToSet[data.vol1.machine].RG[data.vol1.props]));
-        setVol2(nullUndefinedChecker(dataToSet[data.vol2.machine].RG[data.vol2.props]));
-        setStatus(Number(dataToSet?.machineStatus))
+        console.log(
+          "datarespnce",
+          dataToSet[data.sv.machine].RG[data.sv.props]
+        );
+        console.log("data", data);
+        setPv(
+          nullUndefinedChecker(dataToSet[data.pv.machine]?.RG[data.pv.props])
+        );
+        setSv(
+          nullUndefinedChecker(dataToSet[data.sv.machine]?.RG[data.sv.props])
+        );
+        setAmp(
+          nullUndefinedChecker(dataToSet[data.amp.machine]?.RG[data.amp.props])
+        );
+        setRpm(
+          nullUndefinedChecker(dataToSet[data.rpm.machine]?.RG[data.rpm.props])
+        );
+        setTemp(
+          nullUndefinedChecker(
+            dataToSet[data.temp.machine]?.RG[data.temp.props]
+          )
+        );
+        setAmp2(
+          nullUndefinedChecker(
+            dataToSet[data.amp2.machine]?.RG[data.amp2.props]
+          )
+        );
+        setVol1(
+          nullUndefinedChecker(
+            dataToSet[data.vol1.machine]?.RG[data.vol1.props]
+          )
+        );
+        setVol2(
+          nullUndefinedChecker(
+            dataToSet[data.vol2.machine]?.RG[data.vol2.props]
+          )
+        );
+        setStatus(Number(dataToSet?.machineStatus));
       } catch (error) {
         console.error("Error fetching live data:", error);
       }
     };
 
-    // fetchData();
+    fetchData();
     // const interval = setInterval(fetchData, 1000);
 
     // return () => clearInterval(interval);
-  }, [messages]); 
-
-
- 
-
-  
+  }, [messages]);
 
   return (
     <div className="min-[375px]:flex">
       <div className="flex absolute mt-20">
-        <Link to={'/setting'}><button className=" btn p-2 bg-blue-700 rounded-3xl m-1 hover:bg-gray-500 text-gray-100 outline-black">Setting</button></Link>
-        <Link to={'/logs'}><button className=" btn p-2 bg-blue-700 rounded-3xl m-1 hover:bg-gray-500 text-gray-100 outline-black">Logs</button></Link>
+        <Link to={"/setting"}>
+          <button className=" btn p-2 bg-blue-700 rounded-3xl m-1 hover:bg-gray-500 text-gray-100 outline-black">
+            Setting
+          </button>
+        </Link>
+        <Link to={"/logs"}>
+          <button className=" btn p-2 bg-blue-700 rounded-3xl m-1 hover:bg-gray-500 text-gray-100 outline-black">
+            Logs
+          </button>
+        </Link>
       </div>
 
       {/* LEFT PART */}
@@ -115,7 +143,7 @@ const {messages, setMessages}=useListionMessage();
             <ReadingCard
               titleAbbrv="PV."
               titleFull="Present Value"
-              reading={pv +" °C"}
+              reading={pv + " °C"}
               bodyText="text-grey8"
               // cardWidth="w-[70%]"
               // cardMargin="me-[5rem]"
@@ -123,7 +151,7 @@ const {messages, setMessages}=useListionMessage();
             <ReadingCard
               titleAbbrv="SV."
               titleFull="Set Value"
-              reading={sv+" °C"}
+              reading={sv + " °C"}
               bodyText="text-grey8"
               // cardWidth="w-[70%]"
               // cardMargin="me-[5rem]"
@@ -134,7 +162,7 @@ const {messages, setMessages}=useListionMessage();
             <ReadingCard
               titleAbbrv="AMP."
               titleFull="Current"
-              reading={amp+" A"}
+              reading={amp + " A"}
               bodyText="text-grey1"
               // cardWidth="w-[70%]"
               // cardMargin="me-[5rem]"
@@ -150,12 +178,11 @@ const {messages, setMessages}=useListionMessage();
             <ReadingCard
               titleAbbrv="V"
               titleFull="Voltage"
-              reading={vol1+" V"}
+              reading={vol1 + " V"}
               bodyText="text-grey1"
               // cardWidth="w-[70%]"
               // cardMargin="me-[5rem]"
             />
-            
           </div>
         </div>
       </div>
@@ -187,7 +214,7 @@ const {messages, setMessages}=useListionMessage();
             <ReadingCardMobile
               titleAbbrv="PV."
               titleFull="Present Value"
-              reading={pv+"°C"}
+              reading={pv + "°C"}
               bodyText="text-grey8"
               // cardWidth="w-[70%]"
               // cardMargin="me-[5rem]"
@@ -195,7 +222,7 @@ const {messages, setMessages}=useListionMessage();
             <ReadingCardMobile
               titleAbbrv="SV."
               titleFull="Set Value"
-              reading={sv+" °C"}
+              reading={sv + " °C"}
               bodyText="text-grey8"
               // cardWidth="w-[70%]"
               // cardMargin="me-[5rem]"
@@ -206,7 +233,7 @@ const {messages, setMessages}=useListionMessage();
             <ReadingCardMobile
               titleAbbrv="AMP."
               titleFull="Current"
-              reading={amp+" A"}
+              reading={amp + " A"}
               bodyText="text-grey1"
               // cardWidth="w-[70%]"
               // cardMargin="me-[5rem]"
@@ -214,7 +241,7 @@ const {messages, setMessages}=useListionMessage();
             <ReadingCardMobile
               titleAbbrv="RPM"
               titleFull="Speed"
-              reading={rpm+" A"}
+              reading={rpm + " A"}
               bodyText="text-grey1"
               // cardWidth="w-[70%]"
               // cardMargin="me-[5rem]"
@@ -222,7 +249,7 @@ const {messages, setMessages}=useListionMessage();
             <ReadingCardMobile
               titleAbbrv="V"
               titleFull="Voltage"
-              reading={amp+" A"}
+              reading={amp + " A"}
               bodyText="text-grey1"
               // cardWidth="w-[70%]"
               // cardMargin="me-[5rem]"
@@ -251,20 +278,20 @@ const {messages, setMessages}=useListionMessage();
           <ReadingCard
             titleAbbrv="TEMP."
             titleFull="Temperature"
-            reading={temp+" °C"}
+            reading={temp + " °C"}
             bodyText="text-grey8"
           />
           <ReadingCard
             titleAbbrv="AMP."
             titleFull="Current"
-            reading={amp2+" A"}
+            reading={amp2 + " A"}
             bodyText="text-grey8"
             extrasBody="me-[4rem]"
           />
           <ReadingCard
             titleAbbrv="V"
             titleFull="Voltage"
-            reading={vol2+" V"}
+            reading={vol2 + " V"}
             bodyText="text-grey8"
             extrasBody="me-[4rem]"
           />
@@ -279,25 +306,30 @@ const {messages, setMessages}=useListionMessage();
           </h1>
 
           <div className="flex gap-10 flex-wrap self-center">
-            
-              {status ? <div className="bg-green3 rounded-xl flex-center w-[30%] py-5 px-10"> <h1
-                className="text-grey1 heading1"
-                style={{
-                  fontFamily: '"Montserrat", sans-serif',
-                }}
-              >
-                ON
-              </h1> </div>:
+            {status ? (
+              <div className="bg-green3 rounded-xl flex-center w-[30%] py-5 px-10">
+                {" "}
+                <h1
+                  className="text-grey1 heading1"
+                  style={{
+                    fontFamily: '"Montserrat", sans-serif',
+                  }}
+                >
+                  ON
+                </h1>{" "}
+              </div>
+            ) : (
               <div className="bg-red-700 rounded-xl flex-center w-[30%] py-5 px-10">
-              <h1
-                className="text-grey1 heading1"
-                style={{
-                  fontFamily: '"Montserrat", sans-serif',
-                }}
-              >
-                OFF
-              </h1> </div>
-              }
+                <h1
+                  className="text-grey1 heading1"
+                  style={{
+                    fontFamily: '"Montserrat", sans-serif',
+                  }}
+                >
+                  OFF
+                </h1>{" "}
+              </div>
+            )}
             <div className="self-center">
               <h1
                 className="text-grey8 mb-3 body2"
@@ -342,26 +374,25 @@ const {messages, setMessages}=useListionMessage();
           <ReadingCardMobile
             titleAbbrv="TEMP."
             titleFull="Temperature"
-            reading={temp+" °C"}
+            reading={temp + " °C"}
             bodyText="text-grey8"
             extrasBody="flex-wrap justify-center"
           />
           <ReadingCardMobile
             titleAbbrv="AMP."
             titleFull="Currrent"
-            reading={amp2+" A"}
+            reading={amp2 + " A"}
             bodyText="text-grey8"
             extrasBody="flex-wrap justify-center"
           />
           <ReadingCardMobile
             titleAbbrv="V"
             titleFull="Voltage"
-            reading={vol2+" V"}
+            reading={vol2 + " V"}
             bodyText="text-grey8"
             extrasBody="flex-wrap justify-center"
           />
         </div>
-
 
         {/* MACHINE STATUS */}
         <div className="bg-primary2 min-[375px]:mb-3 p-3 ps-4 flex-1 flex flex-col gap-3">
@@ -374,10 +405,7 @@ const {messages, setMessages}=useListionMessage();
 
           <div className="flex">
             <div className=" flex-center px-8 py-4">
-              {
-
-                status ? <div> Hello on</div> : <div> Hello of</div>
-              }
+              {status ? <div> Hello on</div> : <div> Hello of</div>}
             </div>
 
             <div className="self-center ms-5">
@@ -408,4 +436,3 @@ const {messages, setMessages}=useListionMessage();
 };
 
 export default Home;
-
