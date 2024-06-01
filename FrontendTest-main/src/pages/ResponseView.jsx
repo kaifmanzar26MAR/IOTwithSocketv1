@@ -37,6 +37,7 @@ const responseView = () => {
     // getProperties(selectedMachine);
   }, [messages]);
 
+
   const response = {
     1: {
       NAME: "Load Meter",
@@ -85,6 +86,7 @@ const responseView = () => {
 
   return (
     <div className="mx-[20%] md:mx-0 mt-10 text-white">
+
     <Link to={"/"}>
           <button className=" btn p-5 bg-red-400 hover:bg-red-300 hover:rounded-xl rounded-full m-2 fixed top-5 left-5">Home</button>
         </Link>

@@ -54,13 +54,6 @@ function execute_session(connection, argv) {
                     console.log(`Payload: ${json}`);
                     recentData=json;
                     try {
-                        io.emit("newMessage", json);
-                        console.log("message sent")
-                    } catch (error) {
-                        console.log(error)
-                    }
-                     
-                    try {
                         const message = JSON.parse(json);
                         if (message.sequence == argv.count) {
                             subscribed = true;
@@ -92,7 +85,7 @@ function execute_session(connection, argv) {
                             }
                         });
                     });
-                    // setTimeout(publish, op_idx * 1000);
+                    setTimeout(publish, op_idx * 1000);
                 }
             }
             catch (error) {
