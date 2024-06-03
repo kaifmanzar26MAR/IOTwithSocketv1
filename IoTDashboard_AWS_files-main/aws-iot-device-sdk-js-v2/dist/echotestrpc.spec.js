@@ -370,7 +370,7 @@ conditional_test(hasEchoServerEnvironment())('echoMessage failure test - client 
     yield expect(client.echoMessage(badRequest)).rejects.toBeDefined();
     client.close();
 }));
-test('echoMessage failure test - server side internal service error', () => __awaiter(void 0, void 0, void 0, function* () {
+conditional_test(hasEchoServerEnvironment())('echoMessage failure test - server side internal service error', () => __awaiter(void 0, void 0, void 0, function* () {
     let client = echo_rpc.createClient(makeGoodConfig());
     yield client.connect();
     let badRequest = {

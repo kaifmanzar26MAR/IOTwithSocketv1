@@ -1,0 +1,46 @@
+{
+  "1": {
+    "NAME": "Load Meter",
+    "RG": {
+      "Initial Value": 50,
+      "R1 Status": 30,
+      "R2 Status": 156,
+      "Set 1": 120,
+      "Set 2": 141
+    }
+  },
+  "2": {
+    "NAME": "Space Ship",
+    "RG": {
+      "Final Value": 340,
+      "R1 Status": 230,
+      "R2 Status": 231,
+      "Set 1": 430,
+      "Set 2": 131,
+      "Set 3": 189
+    }
+  },
+  "3": {
+    "NAME": "Particle Collider",
+    "RG": {
+      "Neutron Count": 130,
+      "R1 Status": 220,
+      "R2 Status": 324,
+      "Set 1": 101,
+      "Set 2": 121,
+      "Set 3": 89,
+      "Path Length": 412
+    }
+  },
+  "4": {
+    "NAME": "MHT-9612M",
+    "RG": {
+      "Humidity": 100,
+      "SetValue1": 55,
+      "SetValue2": 92,
+      "Relay1 Mode": 340,
+      "Relay2 Mode": 30
+    }
+  },
+  "machine status": true
+}
