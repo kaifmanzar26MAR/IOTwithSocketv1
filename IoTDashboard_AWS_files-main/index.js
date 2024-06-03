@@ -139,7 +139,7 @@ function execute_session(connection, argv) {
                     }
                   });
               });
-            setTimeout(publish, op_idx * 1000);
+            // setTimeout(publish, op_idx * 1000);
           }
         } catch (error) {
           reject(error);

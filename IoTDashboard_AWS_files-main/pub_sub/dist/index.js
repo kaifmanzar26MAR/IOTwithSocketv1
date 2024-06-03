@@ -57,12 +57,12 @@ var __awaiter =
     });
   };
 Object.defineProperty(exports, "__esModule", { value: true });
-const aws_iot_device_sdk_v2_1 = require("../../aws-iot-device-sdk-js-v2");
+const aws_iot_device_sdk_v2_1 = require("../../aws-iot-device-sdk-js-v2/dist/index.js");
 const util_1 = require("util");
 const yargs = require("yargs");
 // The relative path is '../../util/cli_args' from here, but the compiled javascript file gets put one level
 // deeper inside the 'dist' folder
-const common_args = require("../../aws-iot-device-sdk-js-v2/samples/util/cli_args");
+const common_args = require("../../aws-iot-device-sdk-js-v2/samples/util/cli_args.js");
 yargs
   .command(
     "*",
@@ -157,10 +157,8 @@ function main(argv) {
     // ToDo: we can get rid of this but it requires a refactor of the native connection binding that includes
     //    pinning the libuv event loop while the connection is active or potentially active.
     const timer = setInterval(() => {}, 60 * 1000);
-    console.log("Connecting to AWS IoT");
     yield connection.connect();
     yield execute_session(connection, argv);
-    console.log("Disconnecting from AWS IoT");
     yield connection.disconnect();
     // Allow node to die if the promise above resolved
     clearTimeout(timer);
