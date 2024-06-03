@@ -21,7 +21,3 @@ if [ ! -d ./aws-iot-device-sdk-js-v2 ]; then
   npm install
   cd $CWD
 fi
-
-# run pub/sub sample app using certificates downloaded in package
-printf "\nRunning pub/sub sample application...\n"
-node aws-iot-device-sdk-js-v2/samples/node/pub_sub/dist/index.js --endpoint a2s63c9ds97dfk-ats.iot.ap-south-1.amazonaws.com --key iot_gateway.private.key --cert iot_gateway.cert.pem --ca_file root-CA.crt --client_id sdk-nodejs-v2 --topic sdk/test/js

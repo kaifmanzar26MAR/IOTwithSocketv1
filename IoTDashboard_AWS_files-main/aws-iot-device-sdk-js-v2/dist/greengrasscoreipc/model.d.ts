@@ -69,7 +69,8 @@ export declare enum LifecycleState {
     STOPPING = "STOPPING"
 }
 /**
- * The context is ignored if used in PublishMessage.
+ * Contextual information about the message.
+ * NOTE The context is ignored if used in PublishMessage.
  */
 export interface MessageContext {
     /**
