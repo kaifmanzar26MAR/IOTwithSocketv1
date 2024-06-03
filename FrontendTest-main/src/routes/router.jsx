@@ -25,7 +25,7 @@ const router = createBrowserRouter([
                 element:<Setting/>
             },
             {
-                path:'responseview',
+                path:'/responseview',
                 element:<ResponseView/>
             }
         ]
