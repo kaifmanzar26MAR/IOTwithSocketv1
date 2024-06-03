@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useListionMessage from "../hooks/useListionMessage.js";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
 
 // const responseView = () => {
 //   //Fetching data from Endpoin
@@ -263,6 +264,7 @@ const responseView = () => {
       </Link>
 
       <div className="flex justify-center items-center">
+      {Object.keys(apiData).length === 0 ? <CircularProgress size={100} className="mt-52"/> : null}
         {jsonToTable(apiData)}
       </div>
     </div>
