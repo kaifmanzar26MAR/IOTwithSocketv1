@@ -1,9 +1,15 @@
 ﻿# IOTwithSocketv1
 
-to run backend
-go to aws-sdk
-  npm i
-go to pub_sub
-  npm i
-  replace index.js in pub_sub/dist from one in IoTDashboard_AWS_files-main
-  npm run dev in pub_sub
+
+To run backend
+  install and choose node version 14.16.1
+  go to aws-sdk
+    npm i
+  go to pub_sub
+    rename index.js to 2.js
+    npm i
+    delete new index.js 
+    rename 2.js to index.js
+    npm run dev in pub_sub
+  go to backend root
+    npm i
