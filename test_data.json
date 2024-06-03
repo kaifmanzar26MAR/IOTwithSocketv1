@@ -42,5 +42,6 @@
       "Relay2 Mode": 30
     }
   },
-  "machine status": true
+  "machine status": true,
+  "gateway_id":1
 }

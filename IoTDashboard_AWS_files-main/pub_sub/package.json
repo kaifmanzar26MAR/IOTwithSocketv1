@@ -16,7 +16,6 @@
         "tsc": "tsc",
         "prepare": "npm run tsc",
         "dev": "node dist/index.js --endpoint a2s63c9ds97dfk-ats.iot.ap-south-1.amazonaws.com --ca_file ../root-CA.crt --key ../testthing.private.key --cert ../testthing.cert.pem --client_id basicPubSub --topic sdk/test/js --count 2 --message EC2TurnedOn"
-
     },
     "devDependencies": {
         "@types/node": "^10.17.50",
@@ -24,6 +23,7 @@
     },
     "dependencies": {
         "aws-iot-device-sdk-v2": "file:../../..",
+        "mysql2": "^3.10.0",
         "yargs": "^16.2.0"
     }
 }
