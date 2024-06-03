@@ -183,7 +183,7 @@ const responseView = () => {
 
         let dataToSet;
         if (!messages) {
-          const res = await axios.get("http://localhost:5000/recentdata");
+          const res = await axios.get("http://ec2-35-154-187-94.ap-south-1.compute.amazonaws.com:5000/recentdata");
           console.log(res);
           dataToSet = res.data.recentData;
         } else {

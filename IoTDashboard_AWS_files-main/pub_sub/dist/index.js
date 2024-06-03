@@ -11,10 +11,23 @@ const bodyParser = require("body-parser");
 
 const { app, io, server } = require("../socket.js");
 
+// app.use(
+//   cors({
+//     origin: "http://ec2-35-154-187-94.ap-south-1.compute.amazonaws.com",
+//     credentials: true,
+//   })
+// );
+
+const allowedOrigins = ["http://localhost:5173", "http://ec2-35-154-187-94.ap-south-1.compute.amazonaws.com"];
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Origin not allowed by CORS"));
+      }
+    },
   })
 );
 // dotenv.config({

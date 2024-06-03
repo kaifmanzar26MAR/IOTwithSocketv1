@@ -13,7 +13,7 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     const initializeSocket = () => {
-      const newSocket = io("http://localhost:5000", {
+      const newSocket = io("http://ec2-35-154-187-94.ap-south-1.compute.amazonaws.com:5000", {
         query: {
           userId: 0,
         },

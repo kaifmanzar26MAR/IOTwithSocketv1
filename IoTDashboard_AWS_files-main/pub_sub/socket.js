@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:5173"],  // Corrected the origin URL
+        origin: ["http://localhost:5173","http://ec2-35-154-187-94.ap-south-1.compute.amazonaws.com"],  // Corrected the origin URL
         methods: ["GET", "POST"]
     }
 });
