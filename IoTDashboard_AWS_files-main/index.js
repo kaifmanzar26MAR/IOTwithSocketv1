@@ -100,25 +100,37 @@ function execute_session(connection, argv) {
                 `Publish received. topic:"${topic}" dup:${dup} qos:${qos} retain:${retain}`
               );
               console.log(`Payload: ${json}`);
-              recentData = json;
-              const message = JSON.parse(json);
+              let message;
               try {
-                io.emit("NewMessage", recentData);
+                message = JSON.parse(json);
+                console.log("correct json");
+              } catch (error) {
+                console.log("json format is not correct");
+                return;
+              }
+              recentData = message; // Use parsed message instead of json
+
+              try {
+                io.emit("newMessage", recentData);
               } catch (error) {
                 console.log(error);
               }
+
               try {
                 const query =
                   "INSERT INTO logs (gateway_id, data) VALUES (?, ?)";
 
                 // Values to be inserted
                 const gatewayId = message.gateway_id;
-                const data = message;
-
+                const data = json; // Use json here if that's what you want to insert
+                if (gatewayId === undefined || gatewayId === null) {
+                  console.log("Gateway id is null or undefined !!");
+                  return;
+                }
                 // Execute the query with the provided values
                 connections.execute(
                   query,
-                  [gatewayId, data],
+                  [gatewayId, data], // Use data here if you want to insert the JSON string
                   (err, results, fields) => {
                     if (err) {
                       console.error("Error executing query:", err);
@@ -130,7 +142,6 @@ function execute_session(connection, argv) {
               } catch (error) {
                 console.log(error);
               }
-
               try {
                 if (message.sequence == argv.count) {
                   subscribed = true;
