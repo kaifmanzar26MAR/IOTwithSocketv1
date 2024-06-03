@@ -126,9 +126,9 @@ const Setting = () => {
         if (!messages) {
           const res = await axios.get("http://localhost:5000/recentdata");
           console.log(res);
-          dataToSet = await JSON.parse(res.data.recentData);
+          dataToSet = res.data.recentData;
         } else {
-          dataToSet = await JSON.parse(messages);
+          dataToSet = messages;
         }
 
 // console.log(dataToSet)
