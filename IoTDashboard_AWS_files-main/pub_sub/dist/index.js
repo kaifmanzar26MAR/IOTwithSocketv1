@@ -103,7 +103,7 @@ function execute_session(connection, argv) {
               recentData = json;
               const message = JSON.parse(json);
               try {
-                io.emit("NewMessage", recentData);
+                io.emit("newMessage", recentData);
               } catch (error) {
                 console.log(error);
               }
@@ -114,7 +114,10 @@ function execute_session(connection, argv) {
                 // Values to be inserted
                 const gatewayId = message.gateway_id;
                 const data = message;
-
+                if(gatewayId===null){
+                  console.log("Gateway id is null !!")
+                  return;
+                }
                 // Execute the query with the provided values
                 connections.execute(
                   query,
