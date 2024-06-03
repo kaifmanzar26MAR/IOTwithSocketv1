@@ -20,6 +20,10 @@ const sqlDatabase = () => {
     // database: process.env.SQL_DATABASE,
 
     //all credentials will be here
+    host: "instance1.ch0u2emkohha.ap-south-1.rds.amazonaws.com",
+    user:"admin",
+    password:"2024Made2Automate",
+    database:"logs"
     
   });
 
