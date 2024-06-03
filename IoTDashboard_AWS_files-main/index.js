@@ -6,6 +6,7 @@
 
 const express = require("express");
 const cors = require("cors");
+const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 
 const { app, io, server } = require("../socket.js");
@@ -16,10 +17,19 @@ app.use(
     credentials: true,
   })
 );
+// dotenv.config({
+//   path: "IoTDashboard_AWS_files-main\.env",
+// });
+dotenv.config({
+  path: "IoTDashboard_AWS_files-mainpub_sub.env",
+});
 app.use(bodyParser.json());
 
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+
+const sqlDatabase = require("../DB/sql.config.js");
+const connections = sqlDatabase();
 
 let recentData;
 
@@ -91,14 +101,37 @@ function execute_session(connection, argv) {
               );
               console.log(`Payload: ${json}`);
               recentData = json;
+              const message = JSON.parse(json);
               try {
                 io.emit("NewMessage", recentData);
               } catch (error) {
                 console.log(error);
               }
+              try {
+                const query =
+                  "INSERT INTO logs (gateway_id, data) VALUES (?, ?)";
+
+                // Values to be inserted
+                const gatewayId = message.gateway_id;
+                const data = message;
+
+                // Execute the query with the provided values
+                connections.execute(
+                  query,
+                  [gatewayId, data],
+                  (err, results, fields) => {
+                    if (err) {
+                      console.error("Error executing query:", err);
+                      return;
+                    }
+                    console.log("Query executed successfully:", results);
+                  }
+                );
+              } catch (error) {
+                console.log(error);
+              }
 
               try {
-                const message = JSON.parse(json);
                 if (message.sequence == argv.count) {
                   subscribed = true;
                   if (subscribed && published) {
